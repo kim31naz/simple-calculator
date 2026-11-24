@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calc — Simple Everyday Calculator</title>
+  <meta name="description" content="A clean, tactile everyday calculator with keyboard support, light/dark themes, and calculation history." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ea580c'/%3E%3Cpath d='M20 26h12M26 20v12M36 40h12M36 46h12' stroke='%23fff' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="stage">
+    <section class="calculator-shell" aria-label="Calculator">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-name">CALC</span>
+        </div>
+
+        <div class="topbar-actions">
+          <button
+            type="button"
+            id="history-toggle"
+            class="icon-btn"
+            aria-expanded="false"
+            aria-controls="history-drawer"
+            aria-label="Toggle calculation history"
+            title="History (H)"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+              <path d="M3 3v5h5" />
+              <path d="M12 7v5l3 2" />
+            </svg>
+            <span id="history-badge" class="badge" hidden>0</span>
+          </button>
+
+          <button
+            type="button"
+            id="theme-toggle"
+            class="icon-btn"
+            aria-label="Switch color theme"
+            title="Toggle light/dark theme"
+          >
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="display-wrap">
+        <div id="expression" class="expression" aria-live="off">&nbsp;</div>
+        <button
+          type="button"
+          id="display-btn"
+          class="display-btn"
+          title="Click to copy result"
+          aria-label="Current result, click to copy"
+        >
+          <output id="display" class="display" aria-live="polite" aria-atomic="true">0</output>
+        </button>
+        <div id="copy-toast" class="copy-toast" role="status" aria-live="polite">Copied</div>
+      </div>
+
+      <section id="history-drawer" class="history-drawer" aria-label="Calculation history" hidden>
+        <div class="history-header">
+          <span class="history-title">Recent</span>
+          <button type="button" id="history-clear" class="text-btn">Clear</button>
+        </div>
+        <ul id="history-list" class="history-list"></ul>
+        <p id="history-empty" class="history-empty">No calculations yet.</p>
+      </section>
+
+      <div class="keypad" role="group" aria-label="Calculator keys">
+        <button type="button" class="key key-util" data-action="clear" data-key="Escape" id="clear-btn">AC</button>
+        <button type="button" class="key key-util" data-action="backspace" data-key="Backspace" aria-label="Backspace">⌫</button>
+        <button type="button" class="key key-util" data-action="percent" data-key="%" aria-label="Percent">%</button>
+        <button type="button" class="key key-op" data-action="operator" data-value="/" data-key="/" aria-label="Divide">÷</button>
+
+        <button type="button" class="key" data-action="digit" data-value="7" data-key="7">7</button>
+        <button type="button" class="key" data-action="digit" data-value="8" data-key="8">8</button>
+        <button type="button" class="key" data-action="digit" data-value="9" data-key="9">9</button>
+        <button type="button" class="key key-op" data-action="operator" data-value="*" data-key="*" aria-label="Multiply">×</button>
+
+        <button type="button" class="key" data-action="digit" data-value="4" data-key="4">4</button>
+        <button type="button" class="key" data-action="digit" data-value="5" data-key="5">5</button>
+        <button type="button" class="key" data-action="digit" data-value="6" data-key="6">6</button>
+        <button type="button" class="key key-op" data-action="operator" data-value="-" data-key="-" aria-label="Subtract">−</button>
+
+        <button type="button" class="key" data-action="digit" data-value="1" data-key="1">1</button>
+        <button type="button" class="key" data-action="digit" data-value="2" data-key="2">2</button>
+        <button type="button" class="key" data-action="digit" data-value="3" data-key="3">3</button>
+        <button type="button" class="key key-op" data-action="operator" data-value="+" data-key="+" aria-label="Add">+</button>
+
+        <button type="button" class="key key-util" data-action="negate" aria-label="Toggle positive or negative">±</button>
+        <button type="button" class="key" data-action="digit" data-value="0" data-key="0">0</button>
+        <button type="button" class="key" data-action="decimal" data-key="." aria-label="Decimal point">.</button>
+        <button type="button" class="key key-eq" data-action="equals" data-key="Enter" aria-label="Equals">=</button>
+      </div>
+    </section>
+
+    <p class="hint">
+      Keyboard ready · <kbd>0–9</kbd> <kbd>+ − * /</kbd> <kbd>Enter</kbd> <kbd>Esc</kbd> · Click result to copy
+    </p>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

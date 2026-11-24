@@ -1,0 +1,11 @@
+{
+  "name": "simple-calculator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A clean, tactile everyday calculator web app published on Cloudflare Workers Static Assets.",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "test": "node --test"
+  }
+}

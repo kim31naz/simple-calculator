@@ -1,6 +1,8 @@
 # Simple Calculator
 
-A clean, tactile everyday calculator built with vanilla HTML, CSS, and ES Modules — zero build dependencies, instant load times, and hosted on Cloudflare Workers Static Assets.
+A clean, tactile everyday calculator built with vanilla HTML, CSS, and ES Modules — zero build dependencies, instant load times, and hosted on Cloudflare Workers.
+
+**Live Demo:** https://simple-calculator.kim31naz.workers.dev
 
 ## Features
 
